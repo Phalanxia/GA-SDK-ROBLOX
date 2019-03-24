@@ -1,27 +1,18 @@
---Variables
-local GameAnalyticsFiltering = game:GetService("ReplicatedStorage"):WaitForChild("GameAnalyticsFiltering")
---local GameAnalyticsSendMessage = game:GetService("ReplicatedStorage"):WaitForChild("GameAnalyticsSendMessage")
-
 --Services
-local GS = game:GetService("GuiService")
-local UIS = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local GuiSercice = game:GetService("GuiService")
 
---Functions
-function getPlatform()
+local GameAnalyticsFiltering = ReplicatedStorage:WaitForChild("GameAnalyticsFiltering")
 
-    if (GS:IsTenFootInterface()) then
+local function getPlatform()
+    if (GuiSercice:IsTenFootInterface()) then
         return "Console"
-    elseif (UIS.TouchEnabled and not UIS.MouseEnabled) then
+    elseif (UserInputService.TouchEnabled and not UserInputService.MouseEnabled) then
         return "Mobile"
     else
         return "Desktop"
     end
 end
 
---Filtering
 GameAnalyticsFiltering.OnClientInvoke = getPlatform
-
--- debug stuff
---GameAnalyticsSendMessage.OnClientEvent:Connect(function(chatProperties)
---    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", chatProperties)
---end)
